@@ -1,5 +1,7 @@
 create index idx on table2(price)
 
+explain analyze
+
 with my_data1 as (select user_id, name, surname, price, registration_date, min(transaction_time) from 
 (select * from table1 where name = 'Anna') as t1
 inner join
@@ -15,7 +17,9 @@ where price < (select avg(price)+800 from my_data1)
 order by price
 
 ~~~~
-drop index idx on table2
+alter table table2 drop index idx
+
+explain analyze
 
 select user_id, name, surname, price, registration_date, min(transaction_time) from table1 as t1
 inner join table2 as t2
